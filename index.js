@@ -116,18 +116,6 @@ function update(){
     cube.rotation.y += 0.01;
     cube.rotation.z += 0.005;
 
-    // if(move == "up"){
-    //   cube.position.y += 0.5;
-    // }else cube.position.y -= 0.5;
-    //
-    //
-    // if(Date.now() - tmp > 5000){
-    //   tmp = Date.now();
-    //   if(move == "up"){
-    //     move = "down";
-    //   }else move = "up";
-    // }
-
     window.onmousedown = function(e){
         if(e.target == renderer.domElement) {
             //マウス座標2D変換
