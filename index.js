@@ -113,8 +113,8 @@ function update(){
     var projector = new THREE.Projector();
     var mouse = {x: 0, y: 0};
 
-    cube.rotation.y += 0.05;
-    cube.rotation.z += 0.05;
+    cube.rotation.y += 0.01;
+    cube.rotation.z += 0.005;
 
     // if(move == "up"){
     //   cube.position.y += 0.5;
@@ -151,7 +151,7 @@ function update(){
             console.log(obj)
 
             if(obj.length > 0) {
-                location.href = imgs_links[obj.face.materialIndex][1];
+                location.href = imgs_links[obj[0].face.materialIndex][1];
             }
             //マウスが押された時
             //クリックされたら加速度切り替え(停止か稼働か)
