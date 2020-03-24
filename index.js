@@ -84,6 +84,11 @@ function createCube(r){
             //     map: texture
             // } );
             materials = [
+                new THREE.MeshLambertMaterial({map: texture}),
+                new THREE.MeshLambertMaterial({map: texture}),
+                new THREE.MeshLambertMaterial({map: texture}),
+                new THREE.MeshLambertMaterial({map: texture}),
+                new THREE.MeshLambertMaterial({map: texture}),
                 new THREE.MeshLambertMaterial({map: texture})
                 // new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("images/texture01.png")}),
                 // new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("images/texture02.png")}),
