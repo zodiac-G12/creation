@@ -1,19 +1,27 @@
 let width; //window.innerWidth;
 let height; //window.innerHeight;
 let r; // box length
-var scene;
-var camera;
-var renderer;
-var controls;
-var cube;
-var cubelist = [];
-var save = [];
+let scene;
+let camera;
+let renderer;
+let controls;
+let cube;
 
 const light_color = 0xFFFFFF;
 
 const camera_lights = [
     [0, 1000, 0], [500, 1000, 1000], [-500, 1000, -1000], [0, 1000, 500]
 ];
+
+const imgs_links = [
+    ['img/3d.png', 'https://zodiac-g12.github.io/3dd'],
+    ['img/cal.png', 'https://zodiac-g12.github.io/Calendirty/'],
+    ['img/lights.png', 'https://zodiac-g12.github.io/LightsOut'],
+    ['img/main.png', 'https://zodiac-g12.github.io/main/form'],
+    ['img/md.png', 'https://zodiac-g12.github.io/mtt/'],
+    ['img/tail.png', 'https://zodiac-g12.github.io/tail/']
+];
+
 
 
 function windSize(){
@@ -22,11 +30,14 @@ function windSize(){
     r = height > width ? width / 20 : height / 20;
 }
 
+
+
 function createLight(color, x, y, z){
     const light = new THREE.DirectionalLight(color);
     light.position.set(x, y, z);
     return light;
 }
+
 
 
 function init(){
@@ -39,7 +50,7 @@ function init(){
     renderer = createRenderer();
 
     cube = createCube(r);
-    cubelist[0] = cube;
+    //cubelist[0] = cube;
 
     camera.position.set(0, 0, 100);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
@@ -52,6 +63,7 @@ function init(){
 }
 
 
+
 function createRenderer(){
     // trueにするとrenderが透明に出来るようになる
     const renderer = new THREE.WebGLRenderer({alpha:true});
@@ -62,86 +74,32 @@ function createRenderer(){
 }
 
 
-function createCube(r){
-    var geometry = new THREE.BoxGeometry(r, r, r);
-    // var geometry = new THREE.SphereGeometry(10, 10, 10);
-    var loader = new THREE.TextureLoader();
-    loader.crossOrigin = '*';
-    var texture = new THREE.TextureLoader().load( './a.jpg' );
-    //
-    // var material// = new THREE.MeshBasicMaterial( { map: texture } );
-    // // load a resource
-    // var materials;
 
-    // loader.load(
-    //     // resource URL
-    //     'a.jpg',
-    //
-    //     // onLoad callback
-    //     function ( texture ) {
-    //         // in this example we create the material when the texture is loaded
-    //         // material = new THREE.MeshPhongMaterial( {
-    //         //     map: texture
-    //         // } );
-            var materials = [
-                new THREE.MeshLambertMaterial({map: texture}),
-                new THREE.MeshLambertMaterial({map: texture}),
-                new THREE.MeshLambertMaterial({map: texture}),
-                new THREE.MeshLambertMaterial({map: texture}),
-                new THREE.MeshLambertMaterial({map: texture}),
-                new THREE.MeshLambertMaterial({map: texture})
-                // new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("images/texture01.png")}),
-                // new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("images/texture02.png")}),
-                // new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("images/texture03.png")}),
-                // new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("images/texture04.png")}),
-                // new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("images/texture05.png")}),
-            ];
-    //     },
-    //
-    //     // onProgress callback currently not supported
-    //     undefined,
-    //
-    //     // onError callback
-    //     function ( err ) {
-    //         console.error( 'An error happened.' );
-    //     }
-    // );
-    var material = new THREE.MultiMaterial(materials); // マテリアルをセット
-    // var material = new THREE.MeshPhongMaterial({map: THREE.ImageUtils.loadTexture('a.jpg')});
+function createCube(r){
+    const geometry = new THREE.BoxGeometry(r, r, r);
+    const loader = new THREE.TextureLoader();
+    const materials = [];
+
+    loader.crossOrigin = '*';
+
+    imgs_links.forEach((datas)=>{
+        var texture = new THREE.TextureLoader().load(datas[0]);
+        materials[materials.length] = new THREE.MeshLambertMaterial({map: texture});
+    });
+
+    const material = new THREE.MultiMaterial(materials); // マテリアルをセット
     const cube = new THREE.Mesh(geometry, material);
-    cube.color = 0;
+    // cube.color = 0;
     cube.position.set(0, 0, 0);
     scene.add(cube);
+
     return cube;
 }
 
 
 
-function setcolor(color){
-    cube.material.color.setHex(color);
-}
-
-
-
-function cubecolorChange(){
-    var color = cube.color;
-    if(color == 0){
-        setcolor(0xFFFFFF);
-    }else if(color == 1){
-        setcolor(0xFF8000);
-    }else if(color == 2){
-        setcolor(0xFF00FF);
-    }else if(color == 3){
-        setcolor(0x0000FF);
-    }else if(color == 4){
-        setcolor(0x40FF00);
-    }else setcolor(0x00FFFF);
-}
-
-
-
 function createLight(color, x, y, z){
-    var light = new THREE.DirectionalLight(color);
+    const light = new THREE.DirectionalLight(color);
     light.position.set(x, y, z);
     return light;
 }
@@ -152,8 +110,8 @@ function update(){
     controls.update();
     requestAnimationFrame(update);
     renderer.render(scene, camera);
-    // var projector = new THREE.Projector();
-    // var mouse = {x: 0, y: 0};
+    var projector = new THREE.Projector();
+    var mouse = {x: 0, y: 0};
 
     // cube.rotation.y += 0.05;
     //
@@ -169,38 +127,40 @@ function update(){
     //   }else move = "up";
     // }
 
-    // window.onmousedown = function(e){
-    //     if(e.target == renderer.domElement) {
-    //         //マウス座標2D変換
-    //         var rect = e.target.getBoundingClientRect();
-    //         mouse.x =  e.clientX - rect.left;
-    //         mouse.y =  e.clientY - rect.top;
-    //
-    //         //マウス座標3D変換width(横)やheight(縦)は画面サイズ
-    //         mouse.x =  (mouse.x / width) * 2 - 1;
-    //         mouse.y = -(mouse.y / height) * 2 + 1;
-    //
-    //         var vector = new THREE.Vector3(mouse.x, mouse.y ,1); //マウスベクトル
-    //
-    //         projector.unprojectVector(vector, camera); //vectorはスクリーン座標系なので,オブジェクトの座標系に変換
-    //
-    //         var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize()); //始点,向きベクトルを渡してレイを作成
-    //
-    //         // クリック判定
-    //         var obj = ray.intersectObjects(cubelist);
-    //
-    //         //マウスが押された時
-    //         //クリックされたら加速度切り替え(停止か稼働か)
-    //         // if(controls.autoRotate){
-    //         //   controls.autoRotate = false;
-    //         // }else controls.autoRotate = true;
-    //         if(obj.length > 0){
-    //             cube.color += 1;
-    //             if(cube.color > 5){cube.color = 0};
-    //             cubecolorChange();
-    //         }
-    //     }
-    // };
+    window.onmousedown = function(e){
+        if(e.target == renderer.domElement) {
+            //マウス座標2D変換
+            var rect = e.target.getBoundingClientRect();
+            mouse.x =  e.clientX - rect.left;
+            mouse.y =  e.clientY - rect.top;
+
+            //マウス座標3D変換width(横)やheight(縦)は画面サイズ
+            mouse.x =  (mouse.x / width) * 2 - 1;
+            mouse.y = -(mouse.y / height) * 2 + 1;
+
+            var vector = new THREE.Vector3(mouse.x, mouse.y ,1); //マウスベクトル
+
+            projector.unprojectVector(vector, camera); //vectorはスクリーン座標系なので,オブジェクトの座標系に変換
+
+            var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize()); //始点,向きベクトルを渡してレイを作成
+
+            // クリック判定
+            var obj = ray.intersectObjects([cube]);
+
+            console.log(obj)
+
+            //マウスが押された時
+            //クリックされたら加速度切り替え(停止か稼働か)
+            // if(controls.autoRotate){
+            //   controls.autoRotate = false;
+            // }else controls.autoRotate = true;
+            // if(obj.length > 0){
+            //     cube.color += 1;
+            //     if(cube.color > 5){cube.color = 0};
+            //     cubecolorChange();
+            // }
+        }
+    };
 }
 
 
