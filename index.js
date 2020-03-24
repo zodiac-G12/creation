@@ -46,7 +46,7 @@ function init(){
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(100, width / height, 1, 1000);
     controls = new THREE.OrbitControls(camera);
-    controls.autoRotate = true;
+    controls.autoRotate = false;
     renderer = createRenderer();
 
     cube = createCube(r);
@@ -113,8 +113,9 @@ function update(){
     var projector = new THREE.Projector();
     var mouse = {x: 0, y: 0};
 
-    // cube.rotation.y += 0.05;
-    //
+    cube.rotation.y += 0.05;
+    cube.rotation.z += 0.05;
+
     // if(move == "up"){
     //   cube.position.y += 0.5;
     // }else cube.position.y -= 0.5;
@@ -149,6 +150,9 @@ function update(){
 
             console.log(obj)
 
+            if(obj.length > 0) {
+                location.href = imgs_links[obj.face.materialIndex][1];
+            }
             //マウスが押された時
             //クリックされたら加速度切り替え(停止か稼働か)
             // if(controls.autoRotate){
