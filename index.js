@@ -67,23 +67,23 @@ function createCube(r){
     // var geometry = new THREE.SphereGeometry(10, 10, 10);
     var loader = new THREE.TextureLoader();
     loader.crossOrigin = '*';
-    // //var texture = new THREE.TextureLoader().load( './a.jpg' );
+    var texture = new THREE.TextureLoader().load( './a.jpg' );
     //
     // var material// = new THREE.MeshBasicMaterial( { map: texture } );
     // // load a resource
-    var materials;
+    // var materials;
 
-    loader.load(
-        // resource URL
-        'a.jpg',
-
-        // onLoad callback
-        function ( texture ) {
-            // in this example we create the material when the texture is loaded
-            // material = new THREE.MeshPhongMaterial( {
-            //     map: texture
-            // } );
-            materials = [
+    // loader.load(
+    //     // resource URL
+    //     'a.jpg',
+    //
+    //     // onLoad callback
+    //     function ( texture ) {
+    //         // in this example we create the material when the texture is loaded
+    //         // material = new THREE.MeshPhongMaterial( {
+    //         //     map: texture
+    //         // } );
+            var materials = [
                 new THREE.MeshLambertMaterial({map: texture}),
                 new THREE.MeshLambertMaterial({map: texture}),
                 new THREE.MeshLambertMaterial({map: texture}),
@@ -96,16 +96,16 @@ function createCube(r){
                 // new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("images/texture04.png")}),
                 // new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("images/texture05.png")}),
             ];
-        },
-
-        // onProgress callback currently not supported
-        undefined,
-
-        // onError callback
-        function ( err ) {
-            console.error( 'An error happened.' );
-        }
-    );
+    //     },
+    //
+    //     // onProgress callback currently not supported
+    //     undefined,
+    //
+    //     // onError callback
+    //     function ( err ) {
+    //         console.error( 'An error happened.' );
+    //     }
+    // );
     var material = new THREE.MultiMaterial(materials); // マテリアルをセット
     // var material = new THREE.MeshPhongMaterial({map: THREE.ImageUtils.loadTexture('a.jpg')});
     const cube = new THREE.Mesh(geometry, material);
