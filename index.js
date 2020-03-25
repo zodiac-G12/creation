@@ -27,7 +27,7 @@ const imgs_links = [
 function windSize(){
     height = window.innerHeight;
     width = window.innerWidth;
-    r = height > width ? width / 20 : height / 20;
+    r = height > width ? width / 7.5 : height / 15;
 }
 
 
@@ -89,7 +89,6 @@ function createCube(r){
 
     const material = new THREE.MultiMaterial(materials); // マテリアルをセット
     const cube = new THREE.Mesh(geometry, material);
-    // cube.color = 0;
     cube.position.set(0, 0, 0);
     scene.add(cube);
 
@@ -110,16 +109,16 @@ function update(){
     controls.update();
     requestAnimationFrame(update);
     renderer.render(scene, camera);
-    var projector = new THREE.Projector();
-    var mouse = {x: 0, y: 0};
+    const projector = new THREE.Projector();
+    const mouse = {x: 0, y: 0};
 
-    cube.rotation.y += 0.01;
-    cube.rotation.z += 0.005;
+    cube.rotation.y += 0.005;
+    cube.rotation.z += 0.0025;
 
     window.onmousedown = function(e){
         if(e.target == renderer.domElement) {
             //マウス座標2D変換
-            var rect = e.target.getBoundingClientRect();
+            const rect = e.target.getBoundingClientRect();
             mouse.x =  e.clientX - rect.left;
             mouse.y =  e.clientY - rect.top;
 
@@ -127,33 +126,22 @@ function update(){
             mouse.x =  (mouse.x / width) * 2 - 1;
             mouse.y = -(mouse.y / height) * 2 + 1;
 
-            var vector = new THREE.Vector3(mouse.x, mouse.y ,1); //マウスベクトル
+            const vector = new THREE.Vector3(mouse.x, mouse.y ,1); //マウスベクトル
 
             projector.unprojectVector(vector, camera); //vectorはスクリーン座標系なので,オブジェクトの座標系に変換
 
-            var ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize()); //始点,向きベクトルを渡してレイを作成
+            const ray = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize()); //始点,向きベクトルを渡してレイを作成
 
             // クリック判定
-            var obj = ray.intersectObjects([cube]);
-
-            console.log(obj)
+            const obj = ray.intersectObjects([cube]);
 
             if(obj.length > 0) {
                 location.href = imgs_links[obj[0].face.materialIndex][1];
             }
-            //マウスが押された時
-            //クリックされたら加速度切り替え(停止か稼働か)
-            // if(controls.autoRotate){
-            //   controls.autoRotate = false;
-            // }else controls.autoRotate = true;
-            // if(obj.length > 0){
-            //     cube.color += 1;
-            //     if(cube.color > 5){cube.color = 0};
-            //     cubecolorChange();
-            // }
         }
     };
 }
+
 
 
 window.addEventListener('DOMContentLoaded', init);
