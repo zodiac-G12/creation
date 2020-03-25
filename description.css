@@ -1,0 +1,70 @@
+body{
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background: darkblue;
+}
+
+main{
+    position: absolute;
+    text-align: center;
+    color: snow;
+    margin: 10vh 0 10vh 10vw;
+    padding: 5vh 0 5vh 0;
+    width: 80vw;
+    background: rgba(0,0,0,0.8);
+    z-index: 100;
+}
+
+h3{
+    margin-top: 10vh;
+}
+
+p{
+    padding: 0 10vw 0 10vw;
+}
+
+.link{
+    color: gold;
+}
+
+footer{
+    text-align: center;
+    margin: 10vh 0 0 0;
+    color: snow;
+}
+
+.upper, .downer{
+    padding: 0;
+    margin: 0;
+    position: absolute;
+}
+ 
+.upper{
+    background: rgba(60, 179, 113, 0.5);
+    animation: up linear 20s infinite; 
+}
+ 
+.downer{
+    background: rgba(255, 127, 80, 0.5);
+    left: 100vw;
+    animation: down linear 20s infinite;
+}
+ 
+@keyframes up{
+    0%{
+    }
+    100%{
+        transform: translate(125vw, -100vh);
+    }
+}
+ 
+@keyframes down{
+    0%{
+    }
+    100%{
+        transform: translate(-125vw, 100vh);
+    }
+}
+
